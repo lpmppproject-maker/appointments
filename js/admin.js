@@ -16,6 +16,17 @@ console.log("Login sebagai:", user.username);
 
 }
 
+/* =====================
+Logout
+===================== */
+
+function logout(){
+
+localStorage.removeItem("userSession");
+window.location.href = "login.html";
+
+}
+
 const table = document.getElementById("dataBooking");
 const filter = document.getElementById("filterStatus");
 const search = document.getElementById("searchInput");
@@ -42,14 +53,6 @@ return;
 
 }
   
-function logout(){
-
-localStorage.removeItem("userSession");
-
-window.location.href = "login.html";
-
-}
-
 /* ===================
 STATISTIK
 =================== */
@@ -137,17 +140,23 @@ table.innerHTML += row;
 /* ===================
 APPROVE
 =================== */
-
 async function approve(id){
 
 let lokasi = prompt("Masukkan lokasi meeting");
 let catatan = prompt("Catatan admin");
 
-const { data } = await supabaseClient
+const { data, error } = await supabaseClient
 .from("appointments")
 .select("*")
 .eq("id",id)
 .single();
+
+if(error || !data){
+
+alert("Data appointment tidak ditemukan");
+return;
+
+}
 
 /* UPDATE DATABASE */
 
@@ -164,7 +173,8 @@ disetujui_oleh:"Admin"
 /* KIRIM KE GOOGLE CALENDAR */
 
 try{
-
+console.log("Mengirim data ke Google Calendar:", data);
+  
 await fetch("https://script.google.com/macros/s/AKfycbxazzNI7MB74Vq-2SOEFoQQUHA0I2dPq0pdvkymlBXQO99FNCVUzUb48wrXtHMpqgrWiA/exec",{
 
 method:"POST",
@@ -196,12 +206,12 @@ console.log("Webhook berhasil dikirim");
 }catch(err){
 
 console.error("Webhook gagal:",err);
-
 }
 
 loadBooking();
 
 }
+
 /* ===================
 REJECT
 =================== */
@@ -224,4 +234,8 @@ loadBooking();
 
 }
 
+document.addEventListener("DOMContentLoaded", function(){
+
 loadBooking();
+
+});
