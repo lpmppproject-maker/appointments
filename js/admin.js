@@ -175,7 +175,7 @@ disetujui_oleh:"Admin"
 try{
 console.log("Mengirim data ke Google Calendar:", data);
   
-await fetch("https://script.google.com/macros/s/AKfycbxazzNI7MB74Vq-2SOEFoQQUHA0I2dPq0pdvkymlBXQO99FNCVUzUb48wrXtHMpqgrWiA/exec",{
+await fetch("https://script.google.com/macros/s/AKfycbyiCSsW2bOfISspTLZ-nnhQfU_nF1sZZ228Gf_M3tLFueDDUE9xUOtc53TLu_gnS6VC/exec",{
 
 method:"POST",
 
