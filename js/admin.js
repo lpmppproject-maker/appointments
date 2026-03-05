@@ -179,7 +179,9 @@ await fetch("https://script.google.com/macros/s/AKfycbyiCSsW2bOfISspTLZ-nnhQfU_n
 
 method:"POST",
 
-mode:"no-cors",
+headers:{
+"Content-Type":"application/json"
+},
 
 body:JSON.stringify({
 
