@@ -141,20 +141,44 @@ APPROVE
 async function approve(id){
 
 let lokasi = prompt("Masukkan lokasi meeting");
-
 let catatan = prompt("Catatan admin");
+
+const { data } = await supabaseClient
+.from("appointments")
+.select("*")
+.eq("id",id)
+.single();
 
 await supabaseClient
 .from("appointments")
 .update({
-
 status:"Disetujui",
 lokasi:lokasi,
 catatan_admin:catatan,
 disetujui_oleh:"Admin"
-
 })
 .eq("id",id);
+
+/* KIRIM KE GOOGLE CALENDAR */
+
+fetch("https://script.google.com/macros/s/AKfycbyqKgSmDquzOqiAgWnoRlWbcUQhToBUyrydSbb9MzYHwbBqXXuaEvTZQYQCYhFXKHeEFA/exec",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+nama:data.nama,
+nim:data.nim,
+prodi:data.prodi,
+email:data.email,
+no_hp:data.no_hp,
+tanggal:data.tanggal,
+jam_mulai:data.jam_mulai,
+jam_selesai:data.jam_selesai,
+keperluan:data.keperluan,
+lokasi:lokasi
+})
+});
 
 loadBooking();
 
