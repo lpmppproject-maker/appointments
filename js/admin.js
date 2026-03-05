@@ -112,31 +112,19 @@ badge = '<span class="badge badge-tolak">Ditolak</span>';
 let row = `
 
 <tr>
-
 <td>${item.kode_booking}</td>
-
 <td>${item.nama}</td>
-
 <td>${item.nim ?? "-"}</td>
-
 <td>${item.prodi ?? "-"}</td>
-
 <td>${item.tanggal}</td>
-
 <td>${item.jam_mulai} - ${item.jam_selesai}</td>
-
 <td>${item.mode}</td>
-
 <td>${item.keperluan}</td>
-
 <td>${badge}</td>
-
 <td>
 
 <button onclick="approve('${item.id}')">Approve</button> <button onclick="reject('${item.id}')">Reject</button>
-
 </td>
-
 </tr>
 `;
 
@@ -161,6 +149,8 @@ const { data } = await supabaseClient
 .eq("id",id)
 .single();
 
+/* UPDATE DATABASE */
+
 await supabaseClient
 .from("appointments")
 .update({
@@ -171,9 +161,11 @@ disetujui_oleh:"Admin"
 })
 .eq("id",id);
 
-/* WEBHOOK GOOGLE */
+/* KIRIM KE GOOGLE CALENDAR */
 
-fetch("https://script.google.com/macros/s/AKfycbxazzNI7MB74Vq-2SOEFoQQUHA0I2dPq0pdvkymlBXQO99FNCVUzUb48wrXtHMpqgrWiA/exec",{
+try{
+
+await fetch("https://script.google.com/macros/s/AKfycbxazzNI7MB74Vq-2SOEFoQQUHA0I2dPq0pdvkymlBXQO99FNCVUzUb48wrXtHMpqgrWiA/exec",{
 
 method:"POST",
 
@@ -199,10 +191,17 @@ lokasi:lokasi
 
 });
 
-loadBooking();
+console.log("Webhook berhasil dikirim");
+
+}catch(err){
+
+console.error("Webhook gagal:",err);
 
 }
 
+loadBooking();
+
+}
 /* ===================
 REJECT
 =================== */
