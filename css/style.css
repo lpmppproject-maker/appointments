@@ -263,3 +263,46 @@ padding:10px;
 border-radius:6px;
 border:1px solid #ccc;
 }
+
+/* GOOGLE CALENDAR */
+
+.calendar-box{
+margin:20px 0;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+
+/* SLOT WAKTU */
+
+.slot-container{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-bottom:20px;
+}
+
+.slot-btn{
+padding:10px;
+border:none;
+border-radius:6px;
+background:#f4f6f9;
+cursor:pointer;
+font-weight:bold;
+}
+
+.slot-btn:hover{
+background:#007bff;
+color:white;
+}
+
+.slot-btn.disabled{
+background:#ccc;
+cursor:not-allowed;
+}
+
+.slot-btn.selected{
+background:#007bff;
+color:white;
+}
