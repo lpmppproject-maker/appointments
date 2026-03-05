@@ -5,14 +5,18 @@ form.addEventListener("submit", async function(e){
 
 e.preventDefault();
 
-let username = document.getElementById("username").value;
-let password = document.getElementById("password").value;
+const username = document.getElementById("username").value.trim();
+const password = document.getElementById("password").value.trim();
+
+alertBox.innerHTML = "⏳ Memproses login...";
+
+try{
 
 const { data, error } = await supabaseClient
 .from("users")
 .select("*")
-.eq("username",username)
-.eq("password",password)
+.eq("username", username)
+.eq("password", password)
 .single();
 
 if(error || !data){
@@ -22,14 +26,36 @@ return;
 
 }
 
-/* SIMPAN SESSION */
+/* =====================
+SIMPAN SESSION
+===================== */
 
-localStorage.setItem("user", JSON.stringify(data));
+const sessionData = {
+id: data.id,
+username: data.username,
+nama: data.nama,
+role: data.role,
+loginTime: Date.now()
+};
+
+localStorage.setItem("userSession", JSON.stringify(sessionData));
 
 alertBox.innerHTML="✅ Login berhasil";
 
+/* =====================
+REDIRECT KE ADMIN
+===================== */
+
 setTimeout(()=>{
 window.location.href="admin.html";
-},1000);
+},800);
+
+}catch(err){
+
+alertBox.innerHTML="❌ Terjadi kesalahan saat login";
+
+console.error(err);
+
+}
 
 });
