@@ -1,3 +1,17 @@
+async function checkAuth(){
+
+const { data } = await supabaseClient.auth.getUser();
+
+if(!data.user){
+
+window.location.href="login.html";
+
+}
+
+}
+
+checkAuth();
+
 const table = document.getElementById("dataBooking");
 const filter = document.getElementById("filterStatus");
 const search = document.getElementById("searchInput");
