@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+   
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+</head>
+
+<body>
+<div class="container">
+<h1>Dashboard Admin Appointment</h1>
+
+<!-- STATISTIK -->
+
+<div class="stats">
+
+<div class="card">
+<h3 id="totalBooking">0</h3>
+<p>Total Booking</p>
+</div>
+
+<div class="card">
+<h3 id="totalMenunggu">0</h3>
+<p>Menunggu</p>
+</div>
+
+<div class="card">
+<h3 id="totalSetuju">0</h3>
+<p>Disetujui</p>
+</div>
+
+<div class="card">
+<h3 id="totalTolak">0</h3>
+<p>Ditolak</p>
+</div>
+
+</div>
+
+<!-- SEARCH DAN FILTER -->
+
+<div class="admin-tools">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Cari nama / NIM / kode booking..."
+onkeyup="loadBooking()"
+
+>
+
+<select id="filterStatus" onchange="loadBooking()">
+
+<option value="Semua">Semua Status</option>
+<option value="Menunggu">Menunggu</option>
+<option value="Disetujui">Disetujui</option>
+<option value="Ditolak">Ditolak</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Kode</th>
+<th>Nama</th>
+<th>NIM</th>
+<th>Prodi</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Mode</th>
+<th>Keperluan</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="dataBooking"></tbody>
+</table>
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+</html>

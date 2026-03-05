@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cek Status Appointment</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Cek Status Booking</h1>
+
+<div class="form-group">
+<label>Masukkan Kode Booking</label>
+<input type="text" id="kodeBooking" placeholder="Contoh: APT-1712345678">
+</div>
+
+<button onclick="cekStatus()">Cek Status</button>
+
+<div id="result"></div>
+
+</div>
+
+<script src="js/status.js"></script>
+
+</body>
+</html>

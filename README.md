@@ -1,2 +1,2 @@
 # appointments
-Appointments/Janji Temu
+appointments

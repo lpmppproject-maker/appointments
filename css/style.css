@@ -1,0 +1,265 @@
+*{
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+margin:0;
+padding:40px;
+color:#333;
+}
+
+/* CONTAINER */
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.header{
+text-align:center;
+margin-bottom:25px;
+}
+
+.header h1{
+margin-bottom:5px;
+}
+
+.header p{
+color:#666;
+font-size:14px;
+}
+
+/* INFO BOX */
+.info-box{
+background:#f1f7ff;
+border-left:4px solid #007bff;
+padding:15px;
+margin-bottom:25px;
+border-radius:6px;
+font-size:14px;
+}
+
+.info-box ul{
+margin:10px 0 0 20px;
+}
+
+/* SECTION TITLE */
+h2{
+margin-top:25px;
+margin-bottom:10px;
+font-size:18px;
+color:#444;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-bottom:10px;
+}
+
+.full{
+grid-column:1 / -1;
+}
+
+/* FORM */
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+label{
+font-size:14px;
+margin-bottom:5px;
+font-weight:500;
+}
+
+input,textarea,select{
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:14px;
+transition:0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+outline:none;
+border-color:#007bff;
+box-shadow:0 0 0 2px rgba(0,123,255,0.1);
+}
+
+/* BUTTON */
+.submit-btn{
+margin-top:20px;
+padding:14px;
+border:none;
+background:#007bff;
+color:white;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.submit-btn:hover{
+background:#0056b3;
+}
+
+/* ALERT */
+#alert{
+margin-top:20px;
+font-weight:bold;
+}
+
+/* STATUS LINK */
+.status-link{
+margin-top:25px;
+text-align:center;
+font-size:14px;
+}
+
+.status-link a{
+color:#007bff;
+text-decoration:none;
+font-weight:bold;
+}
+
+.status-link a:hover{
+text-decoration:underline;
+}
+
+/* FOOTER */
+.footer{
+text-align:center;
+margin-top:30px;
+font-size:13px;
+color:#777;
+}
+
+/* BADGE STATUS */
+.badge{
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+color:white;
+}
+
+.badge-menunggu{
+background:#f1c40f;
+}
+
+.badge-setuju{
+background:#27ae60;
+}
+
+.badge-tolak{
+background:#e74c3c;
+}
+
+/* ADMIN TOP */
+.admin-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+/* FILTER */
+.filter{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#f4f6f9;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+body{
+padding:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+/* DASHBOARD STATISTICS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:25px;
+}
+
+.card{
+background:#f4f6f9;
+padding:20px;
+border-radius:8px;
+text-align:center;
+}
+
+.card h3{
+font-size:28px;
+margin:0;
+}
+
+.card p{
+margin:5px 0 0;
+font-size:14px;
+color:#666;
+}
+
+/* SEARCH DAN FILTER */
+
+.admin-tools{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.admin-tools input{
+flex:1;
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.admin-tools select{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
