@@ -179,11 +179,7 @@ method:"POST",
 
 mode:"no-cors",
 
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
+body:stringify({
 
 kode_booking:data.kode_booking,
 nama:data.nama,
