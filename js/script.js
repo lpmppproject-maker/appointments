@@ -176,3 +176,41 @@ alertBox.innerHTML = `
 form.reset();
 
 });
+
+/* Pilih Waktu */
+const slots = document.querySelectorAll(".slot-btn");
+slots.forEach(btn => {
+  btn.addEventListener("click",function(){
+    if(this.classList.contains("disabled")) return;
+    slots.forEach(b=>b.classList.remove("selected"));
+    this.classList.add("selected");
+    
+    document.getElementById("jamMulai").value = this.dataset.time;
+    let jam = parseInt(this.dataset.time.split(":")[0]) + 1;
+    document.getElementById("jamSelesai").value =
+      (jam < 10 ? "0"+jam : jam) + ":00";
+});
+
+});
+
+async function updateSlotAvailability(){
+  let tanggal = document.getElementById("tanggal").value;
+  if(!tanggal) return;
+  const { data } = await supabaseClient
+    .from("appointments")
+    .select("*")
+    .eq("tanggal",tanggal);
+ 
+  slots.forEach(btn=>btn.classList.remove("disabled"));
+  data.forEach(item=>{
+    slots.forEach(btn=>{
+      if(btn.dataset.time === item.jam_mulai){
+        btn.classList.add("disabled");
+      }
+    
+    });
+  });
+}
+
+document.getElementById("tanggal")
+.addEventListener("change",updateSlotAvailability);
