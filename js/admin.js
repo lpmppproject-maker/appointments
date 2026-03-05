@@ -175,17 +175,15 @@ disetujui_oleh:"Admin"
 try{
 console.log("Mengirim data ke Google Calendar:", data);
   
-await fetch("https://script.google.com/macros/s/AKfycbyiCSsW2bOfISspTLZ-nnhQfU_nF1sZZ228Gf_M3tLFueDDUE9xUOtc53TLu_gnS6VC/exec",{
+await fetch("https://script.google.com/macros/s/AKfycbxRLlS7HGzg5YyyLnN_rRjV5876LLgneUJQFhPIPB1TD-pickAqipPnqhNa9J70zjBxww/exec",{
 
 method:"POST",
 
-mode:"no-cors",
-
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/x-www-form-urlencoded"
 },
 
-body:JSON.stringify({
+body:new URLSearchParams({
 
 kode_booking:data.kode_booking,
 nama:data.nama,
@@ -204,7 +202,7 @@ lokasi:lokasi
 })
 
 });
-
+  
 console.log("Webhook berhasil dikirim");
 
 }catch(err){
