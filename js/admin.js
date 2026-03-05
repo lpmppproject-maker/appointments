@@ -177,6 +177,8 @@ fetch("https://script.google.com/macros/s/AKfycbyqKgSmDquzOqiAgWnoRlWbcUQhToBUyr
 
 method:"POST",
 
+mode:"no-cors",
+
 headers:{
 "Content-Type":"application/json"
 },
