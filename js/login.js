@@ -5,25 +5,31 @@ form.addEventListener("submit", async function(e){
 
 e.preventDefault();
 
-let email = document.getElementById("email").value;
+let username = document.getElementById("username").value;
 let password = document.getElementById("password").value;
 
-const { data, error } = await supabaseClient.auth.signInWithPassword({
+const { data, error } = await supabaseClient
+.from("users")
+.select("*")
+.eq("username",username)
+.eq("password",password)
+.single();
 
-email: email,
-password: password
+if(error || !data){
 
-});
-
-if(error){
-
-alertBox.innerHTML="❌ Login gagal";
+alertBox.innerHTML="❌ Username atau password salah";
 return;
 
 }
 
+/* SIMPAN SESSION */
+
+localStorage.setItem("user", JSON.stringify(data));
+
 alertBox.innerHTML="✅ Login berhasil";
 
-window.location.href = "admin.html";
+setTimeout(()=>{
+window.location.href="admin.html";
+},1000);
 
 });
