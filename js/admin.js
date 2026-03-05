@@ -179,9 +179,7 @@ await fetch("https://script.google.com/macros/s/AKfycbxLqyjzPNNaFcZrOQdHRbgPXxap
 
 method:"POST",
 
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
+mode:"no-cors",
 
 body:new URLSearchParams({
 
