@@ -1,16 +1,20 @@
-async function checkAuth(){
+/* =====================
+CHECK LOGIN SESSION
+===================== */
 
-const { data } = await supabaseClient.auth.getUser();
+const session = localStorage.getItem("userSession");
 
-if(!data.user){
+if(!session){
 
-window.location.href="login.html";
+window.location.href = "login.html";
+
+}else{
+
+const user = JSON.parse(session);
+
+console.log("Login sebagai:", user.username);
 
 }
-
-}
-
-checkAuth();
 
 const table = document.getElementById("dataBooking");
 const filter = document.getElementById("filterStatus");
@@ -35,6 +39,14 @@ if(error){
 
 alert("Gagal mengambil data");
 return;
+
+}
+  
+function logout(){
+
+localStorage.removeItem("userSession");
+
+window.location.href = "login.html";
 
 }
 
