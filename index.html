@@ -1,41 +1,48 @@
 <!DOCTYPE html>
-
 <html lang="id">
-<head>
+  
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Booking Appointment</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+  </head>
+  
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Sistem Booking Appointment</h1>
+        <p>Silakan isi formulir berikut untuk mengajukan jadwal pertemuan.</p>
+      </header>
+      
+      <section class="info-box">
+        <p><strong>Petunjuk:</strong></p>
+        <ul>
+          <li>Pilih tanggal dan waktu yang tersedia.</li>
+          <li>Pastikan data yang dimasukkan sudah benar.</li>
+          <li>Setelah submit, Anda akan mendapatkan <b>Kode Booking</b>.</li>
+          <li>Kode booking digunakan untuk mengecek status appointment.</li>
+        </ul>
+      </section>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Sistem Booking Appointment</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/supabase.js"></script>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<header class="header">
-<h1>Sistem Booking Appointment</h1>
-<p>Silakan isi formulir berikut untuk mengajukan jadwal pertemuan.</p>
-</header>
-
-<section class="info-box">
-<p><strong>Petunjuk:</strong></p>
-<ul>
-<li>Pilih tanggal dan waktu yang tersedia.</li>
-<li>Pastikan data yang dimasukkan sudah benar.</li>
-<li>Setelah submit, Anda akan mendapatkan <b>Kode Booking</b>.</li>
-<li>Kode booking digunakan untuk mengecek status appointment.</li>
-</ul>
-</section>
-
-<form id="bookingForm">
+<h2>Jadwal Appointment</h2>
+      <div class="calendar-box">
+          <iframe 
+            src="https://calendar.google.com/calendar/embed?src=lp3m%40upnvj.ac.id&ctz=Asia%2FJakarta"
+            style="border: 0" 
+            width="800" 
+            height="600" 
+            frameborder="0" 
+            scrolling="no">
+            
+            </iframe>
+      </div>
+      
+      <form id="bookingForm">
 
 <h2>Informasi Jadwal</h2>
 
