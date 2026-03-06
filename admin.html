@@ -64,10 +64,21 @@ onkeyup="loadBooking()"
   <button onclick="logout()">Logout</button>
 </div>
 
+  <div class="bulk-actions">
+    <button onclick="bulkDelete()" class="btn-delete">
+      Hapus Terpilih
+    </button>
+
+</div>
 <table>
 
 <thead>
 <tr>
+
+<th>
+<input type="checkbox" id="selectAll">
+</th>
+
 <th>Kode</th>
 <th>Nama</th>
 <th>NIM</th>
@@ -78,6 +89,7 @@ onkeyup="loadBooking()"
 <th>Keperluan</th>
 <th>Status</th>
 <th>Aksi</th>
+
 </tr>
 </thead>
 <tbody id="dataBooking"></tbody>
