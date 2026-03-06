@@ -22,7 +22,9 @@ data.forEach(pos => {
 const option = document.createElement("option");
 
 option.value = pos.id;
-option.textContent = pos.nama_jabatan;
+
+option.textContent =
+pos.nama_pejabat + " — " + (pos.nama_jabatan || "");
 
 select.appendChild(option);
 
