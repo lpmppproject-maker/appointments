@@ -8,16 +8,16 @@ const { data, error } = await supabaseClient
 .from("positions")
 .select("*")
 .eq("aktif", true)
-.order("nama_jabatan");
+.order("nama_pejabat");
 
 if(error){
-console.error("Error load positions:", error);
+console.error(error);
 return;
 }
 
 const select = document.getElementById("tujuan_jabatan");
 
-select.innerHTML = '<option value="">Pilih Pejabat Tujuan</option>';
+select.innerHTML = '<option value="">Pilih Pejabat</option>';
 
 data.forEach(pos => {
 
@@ -25,8 +25,10 @@ const option = document.createElement("option");
 
 option.value = pos.id;
 
-option.textContent =
-pos.nama_pejabat + " — " + (pos.nama_jabatan || "");
+/* simpan jabatan */
+option.dataset.jabatan = pos.nama_jabatan;
+
+option.textContent = pos.nama_pejabat;
 
 select.appendChild(option);
 
@@ -36,7 +38,24 @@ select.appendChild(option);
 
 
 /* ===============================
-UPDATE GOOGLE CALENDAR PER PEJABAT
+ISI JABATAN OTOMATIS
+=============================== */
+
+function isiJabatan(){
+
+const select = document.getElementById("tujuan_jabatan");
+
+const option = select.options[select.selectedIndex];
+
+const jabatan = option?.dataset?.jabatan || "";
+
+document.getElementById("nama_jabatan").value = jabatan;
+
+}
+
+
+/* ===============================
+UPDATE GOOGLE CALENDAR
 =============================== */
 
 async function updateCalendar(){
@@ -101,6 +120,8 @@ INIT PAGE
 document.addEventListener("DOMContentLoaded", async () => {
 
 await loadPositions();
+
+updateCalendar();
 
 });
 
@@ -177,7 +198,8 @@ if(!data) return false;
 for(let item of data){
 
 if(
-(jamMulai < item.jam_selesai && jamSelesai > item.jam_mulai)
+(jamMulai < item.jam_selesai &&
+ jamSelesai > item.jam_mulai)
 ){
 return true;
 }
@@ -308,36 +330,6 @@ updateSlotAvailability();
 
 
 /* ===============================
-SLOT WAKTU
-=============================== */
-
-const slots = document.querySelectorAll(".slot-btn");
-
-slots.forEach(btn => {
-
-btn.addEventListener("click",function(){
-
-if(this.classList.contains("disabled")) return;
-
-slots.forEach(b=>b.classList.remove("selected"));
-
-this.classList.add("selected");
-
-document.getElementById("jamMulai").value =
-this.dataset.time;
-
-let jam =
-parseInt(this.dataset.time.split(":")[0]) + 1;
-
-document.getElementById("jamSelesai").value =
-(jam < 10 ? "0"+jam : jam) + ":00";
-
-});
-
-});
-
-
-/* ===============================
 UPDATE SLOT
 =============================== */
 
@@ -377,7 +369,39 @@ btn.classList.add("disabled");
 
 
 /* ===============================
-UPDATE SLOT + CALENDAR
+SLOT WAKTU
+=============================== */
+
+const slots = document.querySelectorAll(".slot-btn");
+
+slots.forEach(btn => {
+
+btn.addEventListener("click",function(){
+
+if(this.classList.contains("disabled")) return;
+
+slots.forEach(b=>{
+b.classList.remove("selected");
+});
+
+this.classList.add("selected");
+
+document.getElementById("jamMulai").value =
+this.dataset.time;
+
+let jam =
+parseInt(this.dataset.time.split(":")[0]) + 1;
+
+document.getElementById("jamSelesai").value =
+(jam < 10 ? "0"+jam : jam) + ":00";
+
+});
+
+});
+
+
+/* ===============================
+CHANGE PEJABAT
 =============================== */
 
 document
@@ -389,7 +413,8 @@ b.classList.remove("selected");
 b.classList.remove("disabled");
 });
 
-updateCalendar();
+isiJabatan();
 updateSlotAvailability();
+updateCalendar();
 
 });
