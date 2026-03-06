@@ -30,6 +30,37 @@ select.appendChild(option);
 
 }
 
+/* ===============================
+UPDATE GOOGLE CALENDAR PER PEJABAT
+=============================== */
+
+async function updateCalendar(){
+
+let position_id =
+document.getElementById("tujuan_jabatan").value;
+
+if(!position_id) return;
+
+const { data, error } = await supabaseClient
+.from("positions")
+.select("calendar_id")
+.eq("id",position_id)
+.single();
+
+if(error || !data) return;
+
+const calendarFrame = document.getElementById("calendarFrame");
+
+if(!calendarFrame) return;
+
+const calendarUrl =
+"https://calendar.google.com/calendar/embed?src="
++ encodeURIComponent(data.calendar_id)
++ "&ctz=Asia/Jakarta";
+
+calendarFrame.src = calendarUrl;
+
+}
 
 /* ===============================
 ELEMENT
@@ -54,6 +85,7 @@ INIT PAGE
 document.addEventListener("DOMContentLoaded", () => {
 
 loadPositions();
+updateSlotAvailability();
 
 });
 
@@ -316,4 +348,9 @@ btn.classList.add("disabled");
 
 document
 .getElementById("tujuan_jabatan")
-.addEventListener("change",updateSlotAvailability);
+.addEventListener("change",function(){
+
+updateSlotAvailability();
+updateCalendar();
+
+});
