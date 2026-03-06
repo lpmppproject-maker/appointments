@@ -17,6 +17,8 @@ return;
 
 const select = document.getElementById("tujuan_jabatan");
 
+select.innerHTML = '<option value="">Pilih Pejabat Tujuan</option>';
+
 data.forEach(pos => {
 
 const option = document.createElement("option");
@@ -32,13 +34,14 @@ select.appendChild(option);
 
 }
 
+
 /* ===============================
 UPDATE GOOGLE CALENDAR PER PEJABAT
 =============================== */
 
 async function updateCalendar(){
 
-let position_id =
+const position_id =
 document.getElementById("tujuan_jabatan").value;
 
 if(!position_id) return;
@@ -49,7 +52,12 @@ const { data, error } = await supabaseClient
 .eq("id",position_id)
 .single();
 
-if(error || !data) return;
+if(error){
+console.error(error);
+return;
+}
+
+if(!data?.calendar_id) return;
 
 const calendarFrame = document.getElementById("calendarFrame");
 
@@ -63,6 +71,7 @@ const calendarUrl =
 calendarFrame.src = calendarUrl;
 
 }
+
 
 /* ===============================
 ELEMENT
@@ -84,9 +93,10 @@ const hariList = [
 INIT PAGE
 =============================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-loadPositions();
+await loadPositions();
+
 updateSlotAvailability();
 
 });
@@ -281,6 +291,8 @@ alertBox.innerHTML = `
 
 form.reset();
 
+updateSlotAvailability();
+
 });
 
 
@@ -346,7 +358,9 @@ btn.classList.add("disabled");
 }
 
 
-/* UPDATE SLOT JIKA JABATAN BERUBAH */
+/* ===============================
+UPDATE SLOT + CALENDAR
+=============================== */
 
 document
 .getElementById("tujuan_jabatan")
