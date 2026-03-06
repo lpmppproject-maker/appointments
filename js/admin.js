@@ -115,6 +115,13 @@ badge = '<span class="badge badge-tolak">Ditolak</span>';
 let row = `
 
 <tr>
+
+<td>
+<input type="checkbox"
+class="selectRow"
+value="${item.id}">
+</td>
+
 <td>${item.kode_booking}</td>
 <td>${item.nama}</td>
 <td>${item.nim ?? "-"}</td>
@@ -124,13 +131,33 @@ let row = `
 <td>${item.mode}</td>
 <td>${item.keperluan}</td>
 <td>${badge}</td>
+
 <td>
 
-<button onclick="approve('${item.id}')">Approve</button> <button onclick="reject('${item.id}')">Reject</button>
-</td>
-</tr>
-`;
+<div class="actions">
 
+<button class="btn btn-approve"
+onclick="approve('${item.id}')">
+Approve
+</button>
+
+<button class="btn btn-reject"
+onclick="reject('${item.id}')">
+Reject
+</button>
+
+<button class="btn btn-delete"
+onclick="deleteBooking('${item.id}')">
+Delete
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
 table.innerHTML += row;
 
 });
@@ -241,3 +268,70 @@ document.addEventListener("DOMContentLoaded", function(){
 loadBooking();
 
 });
+
+/* ========== Select===============*/
+document
+.getElementById("selectAll")
+.addEventListener("change",function(){
+
+const rows =
+document.querySelectorAll(".selectRow");
+
+rows.forEach(cb=>{
+cb.checked = this.checked;
+});
+
+});
+
+/* ========== Delete ===============*/
+async function bulkDelete(){
+
+const checked =
+document.querySelectorAll(".selectRow:checked");
+
+if(checked.length === 0){
+alert("Pilih data yang ingin dihapus");
+return;
+}
+
+if(!confirm("Hapus semua booking yang dipilih?"))
+return;
+
+let ids = [];
+
+checked.forEach(cb=>{
+ids.push(cb.value);
+});
+
+const { error } = await supabaseClient
+.from("appointments")
+.delete()
+.in("id", ids);
+
+if(error){
+alert("Gagal menghapus");
+return;
+}
+
+loadBooking();
+
+}
+
+/* ========== Single Delete ===============*/
+async function deleteBooking(id){
+
+if(!confirm("Hapus booking ini?")) return;
+
+const { error } = await supabaseClient
+.from("appointments")
+.delete()
+.eq("id",id);
+
+if(error){
+alert("Gagal hapus");
+return;
+}
+
+loadBooking();
+
+}
