@@ -49,7 +49,7 @@ if(!position_id) return;
 const { data, error } = await supabaseClient
 .from("positions")
 .select("calendar_id")
-.eq("id",position_id)
+.eq("id", position_id)
 .single();
 
 if(error){
@@ -63,12 +63,10 @@ const calendarFrame = document.getElementById("calendarFrame");
 
 if(!calendarFrame) return;
 
-const calendarUrl =
+calendarFrame.src =
 "https://calendar.google.com/calendar/embed?src="
 + encodeURIComponent(data.calendar_id)
 + "&ctz=Asia/Jakarta";
-
-calendarFrame.src = calendarUrl;
 
 }
 
@@ -292,34 +290,6 @@ alertBox.innerHTML = `
 form.reset();
 
 updateSlotAvailability();
-
-});
-
-
-/* ===============================
-SLOT WAKTU
-=============================== */
-
-const slots = document.querySelectorAll(".slot-btn");
-
-slots.forEach(btn => {
-
-btn.addEventListener("click",function(){
-
-if(this.classList.contains("disabled")) return;
-
-slots.forEach(b=>b.classList.remove("selected"));
-
-this.classList.add("selected");
-
-document.getElementById("jamMulai").value = this.dataset.time;
-
-let jam = parseInt(this.dataset.time.split(":")[0]) + 1;
-
-document.getElementById("jamSelesai").value =
-(jam < 10 ? "0"+jam : jam) + ":00";
-
-});
 
 });
 
