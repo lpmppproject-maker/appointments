@@ -1,109 +1,135 @@
 <!DOCTYPE html>
 <html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistem Booking Appointment</title>
+
+<link rel="stylesheet" href="css/index.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+</head>
+
+<body>
+<div class="container">
+<!-- ===============================
+HEADER
+=============================== -->
+<header class="header">
+<h1>📅 Sistem Booking Appointment</h1>
+<p>
+Ajukan jadwal pertemuan dengan pejabat LPMPP secara online
+</p>
+</header>
+<!-- ===============================
+INFO
+=============================== -->
+<section class="info-box">
+<strong>Petunjuk Penggunaan</strong>
+<ul>
+<li>Pilih pejabat yang ingin ditemui</li>
+<li>Pilih tanggal dan slot waktu yang tersedia</li>
+<li>Isi data diri dengan benar</li>
+<li>Setelah submit Anda akan mendapatkan <b>Kode Booking</b></li>
+</ul>
+</section>
   
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Booking Appointment</title>
-    
-    <link rel="stylesheet" href="css/style.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase.js"></script>
-  </head>
-  
-  <body>
-    <div class="container">
-      <header class="header">
-        <h1>Sistem Booking Appointment</h1>
-        <p>Silakan isi formulir berikut untuk mengajukan jadwal pertemuan.</p>
-      </header>
-      
-      <section class="info-box">
-        <p><strong>Petunjuk:</strong></p>
-        <ul>
-          <li>Pilih tanggal dan waktu yang tersedia.</li>
-          <li>Pastikan data yang dimasukkan sudah benar.</li>
-          <li>Setelah submit, Anda akan mendapatkan <b>Kode Booking</b>.</li>
-          <li>Kode booking digunakan untuk mengecek status appointment.</li>
-        </ul>
-      </section>
-      
-      <div class="grid">
-        <div class="form-group">
-        <label>Tujuan Bertemu</label>
-        
-        <select id="tujuan_jabatan" required>
-        <option value="">Pilih Pejabat</option>
-        </select>
-        
-        </div>
-      </div>
-      
-<h2>Jadwal Appointment</h2>
-      <div class="calendar-box">
-         <iframe
-          id="calendarFrame"
-          src="https://calendar.google.com/calendar/embed?src=lp3m%40upnvj.ac.id&ctz=Asia%2FJakarta"
-          style="border:0"
-          width="800"
-          height="600"
-          frameborder="0"
-          scrolling="no">
-          </iframe>
-      </div>
-      
+<!-- ===============================
+PILIH PEJABAT
+=============================== -->
+<section>
+<h2>Tujuan Pertemuan</h2>
+<div class="grid">
+<div class="form-group">
+<label>Pilih Pejabat</label>
+<select id="tujuan_jabatan" required>
+<option value="">Pilih Pejabat Tujuan</option>
+</select>
+</div>
+</div>
+
+</section>
+
+<!-- ===============================
+KALENDER
+=============================== -->
+<section>
+<h2>Jadwal Pejabat</h2>
+<div class="calendar-box">
+<iframe
+id="calendarFrame"
+src="https://calendar.google.com/calendar/embed?src=lp3m%40upnvj.ac.id&ctz=Asia%2FJakarta"
+style="border:0"
+width="100%"
+height="500"
+frameborder="0"
+scrolling="no">
+</iframe>
+</div>
+</section>
+
+<!-- ===============================
+SLOT WAKTU
+=============================== -->
+<section>
 <h2>Pilih Slot Waktu</h2>
-      <div id="slotContainer" class="slot-container">
-        <button class="slot-btn" data-time="08:00">08:00</button>
-        <button class="slot-btn" data-time="09:00">09:00</button>
-        <button class="slot-btn" data-time="10:00">10:00</button>
-        <button class="slot-btn" data-time="11:00">11:00</button>
-        <button class="slot-btn" data-time="13:00">13:00</button>
-        <button class="slot-btn" data-time="14:00">14:00</button>
-        <button class="slot-btn" data-time="15:00">15:00</button>
-      </div>
-      
+<div id="slotContainer" class="slot-container">
+<button class="slot-btn" data-time="08:00">08:00</button>
+<button class="slot-btn" data-time="09:00">09:00</button>
+<button class="slot-btn" data-time="10:00">10:00</button>
+<button class="slot-btn" data-time="11:00">11:00</button>
+<button class="slot-btn" data-time="13:00">13:00</button>
+<button class="slot-btn" data-time="14:00">14:00</button>
+<button class="slot-btn" data-time="15:00">15:00</button>
+</div>
+</section>
+
+<!-- ===============================
+FORM BOOKING
+=============================== -->
 <form id="bookingForm">
-  <h2>Informasi Jadwal</h2>
-  <div class="grid">
-    <div class="form-group">
-      <label>Tanggal</label>
-      <input type="date" id="tanggal" required>
-    </div>
-    
-    <div class="form-group">
-      <label>Hari</label>
-      <input type="text" id="hari" readonly placeholder="Otomatis">
-    </div>
-    
-    <div class="form-group">
-      <label>Jam Mulai</label>
-      <input type="time" id="jamMulai" required>
-    </div>
-    
-    <div class="form-group">
-      <label>Jam Selesai</label>
-      <input type="time" id="jamSelesai" required>
-    </div>
-  </div>
+<h2>Informasi Jadwal</h2>
+<div class="grid">
+<div class="form-group">
+<label>Tanggal</label>
+<input type="date" id="tanggal" required>
+</div>
+
+<div class="form-group">
+<label>Hari</label>
+<input type="text" id="hari" readonly placeholder="Otomatis">
+</div>
+
+<div class="form-group">
+<label>Jam Mulai</label>
+<input type="time" id="jamMulai" required>
+</div>
+
+<div class="form-group">
+<label>Jam Selesai</label>
+<input type="time" id="jamSelesai" required>
+</div>
+</div>
+
+<h2>Informasi Pemohon</h2>
+<div class="grid">
+<div class="form-group">
+<label>Nama Lengkap</label>
+<input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+</div>
+
+<div class="form-group">
+<label>NIM</label>
+<input type="text" id="nim" placeholder="Contoh: 220123456">
+</div>
   
-  <h2>Informasi Pemohon</h2>
-  <div class="grid">
-    <div class="form-group">
-      <label>Nama Lengkap</label>
-      <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
-    </div>
-    
-    <div class="form-group">
-      <label>NIM</label>
-      <input type="text" id="nim" placeholder="Contoh: 220123456">
-    </div>
-    
-    <div class="form-group">
-      <label>Program Studi</label>
-      <input type="text" id="prodi" placeholder="Contoh: Sistem Informasi">
-    </div>
+<div class="form-group">
+<label>Program Studi</label>
+<input type="text" id="prodi" placeholder="Contoh: Sistem Informasi">
+</div>
 
 <div class="form-group">
 <label>Email</label>
@@ -114,49 +140,69 @@
 <label>No HP / WhatsApp</label>
 <input type="tel" id="hp" placeholder="08xxxxxxxxxx">
 </div>
-
 </div>
 
 <h2>Detail Pertemuan</h2>
-
 <div class="grid">
 <div class="form-group full">
 <label>Keperluan</label>
-<textarea id="keperluan" rows="4" placeholder="Jelaskan tujuan pertemuan"></textarea>
+<textarea
+id="keperluan"
+rows="4"
+placeholder="Jelaskan tujuan pertemuan">
+</textarea>
 </div>
 
 <div class="form-group">
 <label>Mode Pertemuan</label>
 <select id="mode">
-<option value="Offline">Offline (Tatap Muka)</option>
-<option value="Online">Online (Zoom / Google Meet)</option>
+<option value="Offline">
+Offline (Tatap Muka)
+</option>
+  
+<option value="Online">
+Online (Zoom / Google Meet)
+</option>
 </select>
 </div>
-
+  
 <div class="form-group">
 <label>Lokasi / Link Meeting</label>
-<input type="text" id="lokasi" placeholder="Contoh: Ruang Dosen / Link Zoom">
+<input
+type="text"
+id="lokasi"
+placeholder="Contoh: Ruang Dosen / Link Zoom">
 </div>
-
 </div>
 
 <button type="submit" class="submit-btn">
 Buat Appointment
 </button>
-
 </form>
 
+<!-- ===============================
+ALERT
+=============================== -->
 <div id="alert"></div>
 
+<!-- ===============================
+STATUS LINK
+=============================== -->
 <div class="status-link">
 <p>Sudah melakukan booking?</p>
 <a href="status.html">Cek Status Booking</a>
 </div>
 
-<footer class="footer">
-<p>Sistem Appointment © 2026</p>
-</footer>
+<!-- ===============================
+FOOTER
+=============================== -->
 
+<footer class="footer">
+<p>
+Sistem Appointment LPMPP © 2026
+</p>
+</footer>
+  
 </div>
 
 <script src="js/script.js"></script>
