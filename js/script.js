@@ -1,3 +1,40 @@
+/* ===============================
+LOAD JABATAN DARI SUPABASE
+=============================== */
+
+async function loadPositions(){
+
+const { data, error } = await supabaseClient
+.from("positions")
+.select("*")
+.eq("aktif", true)
+.order("nama_jabatan");
+
+if(error){
+console.error(error);
+return;
+}
+
+const select = document.getElementById("tujuan_jabatan");
+
+data.forEach(pos => {
+
+const option = document.createElement("option");
+
+option.value = pos.id;
+option.textContent = pos.nama_jabatan;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+/* ===============================
+ELEMENT
+=============================== */
+
 const form = document.getElementById("bookingForm");
 const alertBox = document.getElementById("alert");
 
@@ -9,8 +46,20 @@ const hariList = [
 "Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"
 ];
 
+
 /* ===============================
-SET MIN DATE (tidak bisa pilih tanggal kemarin)
+INIT PAGE
+=============================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+loadPositions();
+
+});
+
+
+/* ===============================
+SET MIN DATE
 =============================== */
 
 const today = new Date().toISOString().split("T")[0];
@@ -18,7 +67,7 @@ tanggalInput.min = today;
 
 
 /* ===============================
-AUTO ISI HARI
+AUTO HARI
 =============================== */
 
 tanggalInput.addEventListener("change",function(){
@@ -28,17 +77,18 @@ let hari = hariList[date.getDay()];
 
 document.getElementById("hari").value = hari;
 
+updateSlotAvailability();
+
 });
 
 
 /* ===============================
-AUTO JAM SELESAI (+1 jam)
+AUTO JAM SELESAI
 =============================== */
 
 jamMulaiInput.addEventListener("change",function(){
 
 let jam = this.value.split(":")[0];
-
 let nextJam = parseInt(jam) + 1;
 
 if(nextJam < 10){
@@ -51,7 +101,7 @@ jamSelesaiInput.value = nextJam + ":00";
 
 
 /* ===============================
-GENERATE KODE BOOKING
+GENERATE BOOKING CODE
 =============================== */
 
 function generateKode(){
@@ -64,15 +114,16 @@ return "APT-"+Date.now()+"-"+rand;
 
 
 /* ===============================
-CEK BENTROK JADWAL
+CEK BENTROK PER PEJABAT
 =============================== */
 
-async function cekBentrok(tanggal,jamMulai,jamSelesai){
+async function cekBentrok(tanggal,jamMulai,jamSelesai,position_id){
 
 const { data } = await supabaseClient
 .from("appointments")
 .select("*")
-.eq("tanggal",tanggal);
+.eq("tanggal",tanggal)
+.eq("position_id",position_id);
 
 if(!data) return false;
 
@@ -92,7 +143,7 @@ return false;
 
 
 /* ===============================
-SUBMIT FORM
+SUBMIT BOOKING
 =============================== */
 
 form.addEventListener("submit",async function(e){
@@ -106,6 +157,8 @@ let hari = document.getElementById("hari").value;
 let jamMulai = jamMulaiInput.value;
 let jamSelesai = jamSelesaiInput.value;
 
+let position_id = document.getElementById("tujuan_jabatan").value;
+
 
 /* VALIDASI JAM */
 
@@ -117,13 +170,28 @@ return;
 }
 
 
+/* VALIDASI JABATAN */
+
+if(!position_id){
+
+alertBox.innerHTML="❌ Pilih tujuan pejabat terlebih dahulu";
+return;
+
+}
+
+
 /* CEK BENTROK */
 
-let bentrok = await cekBentrok(tanggal,jamMulai,jamSelesai);
+let bentrok = await cekBentrok(
+tanggal,
+jamMulai,
+jamSelesai,
+position_id
+);
 
 if(bentrok){
 
-alertBox.innerHTML="❌ Jadwal sudah terisi";
+alertBox.innerHTML="❌ Jadwal pejabat sudah terisi";
 return;
 
 }
@@ -140,14 +208,18 @@ tanggal:tanggal,
 hari:hari,
 jam_mulai:jamMulai,
 jam_selesai:jamSelesai,
+
 nama:document.getElementById("nama").value,
 nim:document.getElementById("nim").value,
 prodi:document.getElementById("prodi").value,
 email:document.getElementById("email").value,
 no_hp:document.getElementById("hp").value,
+
 keperluan:document.getElementById("keperluan").value,
 mode:document.getElementById("mode").value,
-lokasi:document.getElementById("lokasi").value
+lokasi:document.getElementById("lokasi").value,
+
+position_id:position_id
 
 };
 
@@ -177,40 +249,71 @@ form.reset();
 
 });
 
-/* Pilih Waktu */
+
+/* ===============================
+SLOT WAKTU
+=============================== */
+
 const slots = document.querySelectorAll(".slot-btn");
+
 slots.forEach(btn => {
-  btn.addEventListener("click",function(){
-    if(this.classList.contains("disabled")) return;
-    slots.forEach(b=>b.classList.remove("selected"));
-    this.classList.add("selected");
-    
-    document.getElementById("jamMulai").value = this.dataset.time;
-    let jam = parseInt(this.dataset.time.split(":")[0]) + 1;
-    document.getElementById("jamSelesai").value =
-      (jam < 10 ? "0"+jam : jam) + ":00";
+
+btn.addEventListener("click",function(){
+
+if(this.classList.contains("disabled")) return;
+
+slots.forEach(b=>b.classList.remove("selected"));
+
+this.classList.add("selected");
+
+document.getElementById("jamMulai").value = this.dataset.time;
+
+let jam = parseInt(this.dataset.time.split(":")[0]) + 1;
+
+document.getElementById("jamSelesai").value =
+(jam < 10 ? "0"+jam : jam) + ":00";
+
 });
 
 });
+
+
+/* ===============================
+UPDATE SLOT
+=============================== */
 
 async function updateSlotAvailability(){
-  let tanggal = document.getElementById("tanggal").value;
-  if(!tanggal) return;
-  const { data } = await supabaseClient
-    .from("appointments")
-    .select("*")
-    .eq("tanggal",tanggal);
- 
-  slots.forEach(btn=>btn.classList.remove("disabled"));
-  data.forEach(item=>{
-    slots.forEach(btn=>{
-      if(btn.dataset.time === item.jam_mulai){
-        btn.classList.add("disabled");
-      }
-    
-    });
-  });
+
+let tanggal = document.getElementById("tanggal").value;
+let position_id = document.getElementById("tujuan_jabatan").value;
+
+if(!tanggal || !position_id) return;
+
+const { data } = await supabaseClient
+.from("appointments")
+.select("*")
+.eq("tanggal",tanggal)
+.eq("position_id",position_id);
+
+slots.forEach(btn=>btn.classList.remove("disabled"));
+
+data.forEach(item=>{
+
+slots.forEach(btn=>{
+
+if(btn.dataset.time === item.jam_mulai){
+btn.classList.add("disabled");
 }
 
-document.getElementById("tanggal")
+});
+
+});
+
+}
+
+
+/* UPDATE SLOT JIKA JABATAN BERUBAH */
+
+document
+.getElementById("tujuan_jabatan")
 .addEventListener("change",updateSlotAvailability);
