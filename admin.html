@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="css/admin.css">
-   
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase.js"></script>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
 </head>
 
+
 <body>
+
 <div class="container">
+
 <h1>Dashboard Admin Appointment</h1>
 
-<!-- STATISTIK -->
+
+<!-- ===============================
+STATISTIK
+=============================== -->
 
 <div class="stats">
 
@@ -42,7 +51,11 @@
 
 </div>
 
-<!-- SEARCH DAN FILTER -->
+
+
+<!-- ===============================
+SEARCH DAN FILTER
+=============================== -->
 
 <div class="admin-tools">
 
@@ -52,7 +65,10 @@ id="searchInput"
 placeholder="Cari nama / NIM / kode booking..."
 onkeyup="loadBooking()"
 >
-<select id="filterStatus" onchange="loadBooking()">
+
+<select
+id="filterStatus"
+onchange="loadBooking()">
 
 <option value="Semua">Semua Status</option>
 <option value="Menunggu">Menunggu</option>
@@ -61,18 +77,42 @@ onkeyup="loadBooking()"
 
 </select>
 
-  <button onclick="logout()">Logout</button>
-</div>
-
-  <div class="bulk-actions">
-    <button onclick="bulkDelete()" class="btn-delete">
-      Hapus Terpilih
-    </button>
+<button onclick="logout()" class="btn btn-logout">
+Logout
+</button>
 
 </div>
+
+
+
+<!-- ===============================
+BULK ACTION
+=============================== -->
+
+<div class="bulk-actions">
+
+<button
+onclick="bulkDelete()"
+class="btn btn-delete">
+
+Hapus Terpilih
+
+</button>
+
+</div>
+
+
+
+<!-- ===============================
+TABLE
+=============================== -->
+
+<div class="table-wrapper">
+
 <table>
 
 <thead>
+
 <tr>
 
 <th>
@@ -91,10 +131,23 @@ onkeyup="loadBooking()"
 <th>Aksi</th>
 
 </tr>
+
 </thead>
-<tbody id="dataBooking"></tbody>
+
+
+<tbody id="dataBooking">
+
+<!-- DATA DIISI OLEH JAVASCRIPT -->
+
+</tbody>
+
 </table>
+
 </div>
+
+</div>
+
+
 
 <script src="js/admin.js"></script>
 
