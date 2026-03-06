@@ -11,7 +11,7 @@ const { data, error } = await supabaseClient
 .order("nama_jabatan");
 
 if(error){
-console.error(error);
+console.error("Error load positions:", error);
 return;
 }
 
@@ -44,7 +44,15 @@ async function updateCalendar(){
 const position_id =
 document.getElementById("tujuan_jabatan").value;
 
-if(!position_id) return;
+const calendarFrame =
+document.getElementById("calendarFrame");
+
+if(!calendarFrame) return;
+
+if(!position_id){
+calendarFrame.src="";
+return;
+}
 
 const { data, error } = await supabaseClient
 .from("positions")
@@ -53,15 +61,14 @@ const { data, error } = await supabaseClient
 .single();
 
 if(error){
-console.error(error);
+console.error("Error load calendar:", error);
 return;
 }
 
-if(!data?.calendar_id) return;
-
-const calendarFrame = document.getElementById("calendarFrame");
-
-if(!calendarFrame) return;
+if(!data?.calendar_id){
+calendarFrame.src="";
+return;
+}
 
 calendarFrame.src =
 "https://calendar.google.com/calendar/embed?src="
@@ -94,8 +101,6 @@ INIT PAGE
 document.addEventListener("DOMContentLoaded", async () => {
 
 await loadPositions();
-
-updateSlotAvailability();
 
 });
 
@@ -199,14 +204,17 @@ let hari = document.getElementById("hari").value;
 let jamMulai = jamMulaiInput.value;
 let jamSelesai = jamSelesaiInput.value;
 
-let position_id = document.getElementById("tujuan_jabatan").value;
+let position_id =
+document.getElementById("tujuan_jabatan").value;
 
 
 /* VALIDASI JAM */
 
 if(jamMulai >= jamSelesai){
 
-alertBox.innerHTML="❌ Jam selesai harus lebih besar dari jam mulai";
+alertBox.innerHTML=
+"❌ Jam selesai harus lebih besar dari jam mulai";
+
 return;
 
 }
@@ -216,7 +224,9 @@ return;
 
 if(!position_id){
 
-alertBox.innerHTML="❌ Pilih tujuan pejabat terlebih dahulu";
+alertBox.innerHTML=
+"❌ Pilih tujuan pejabat terlebih dahulu";
+
 return;
 
 }
@@ -233,7 +243,9 @@ position_id
 
 if(bentrok){
 
-alertBox.innerHTML="❌ Jadwal pejabat sudah terisi";
+alertBox.innerHTML=
+"❌ Jadwal pejabat sudah terisi";
+
 return;
 
 }
@@ -275,6 +287,7 @@ const { error } = await supabaseClient
 if(error){
 
 alertBox.innerHTML="❌ Gagal menyimpan data";
+
 return;
 
 }
@@ -295,13 +308,46 @@ updateSlotAvailability();
 
 
 /* ===============================
+SLOT WAKTU
+=============================== */
+
+const slots = document.querySelectorAll(".slot-btn");
+
+slots.forEach(btn => {
+
+btn.addEventListener("click",function(){
+
+if(this.classList.contains("disabled")) return;
+
+slots.forEach(b=>b.classList.remove("selected"));
+
+this.classList.add("selected");
+
+document.getElementById("jamMulai").value =
+this.dataset.time;
+
+let jam =
+parseInt(this.dataset.time.split(":")[0]) + 1;
+
+document.getElementById("jamSelesai").value =
+(jam < 10 ? "0"+jam : jam) + ":00";
+
+});
+
+});
+
+
+/* ===============================
 UPDATE SLOT
 =============================== */
 
 async function updateSlotAvailability(){
 
-let tanggal = document.getElementById("tanggal").value;
-let position_id = document.getElementById("tujuan_jabatan").value;
+let tanggal =
+document.getElementById("tanggal").value;
+
+let position_id =
+document.getElementById("tujuan_jabatan").value;
 
 if(!tanggal || !position_id) return;
 
@@ -311,7 +357,9 @@ const { data } = await supabaseClient
 .eq("tanggal",tanggal)
 .eq("position_id",position_id);
 
-slots.forEach(btn=>btn.classList.remove("disabled"));
+slots.forEach(btn =>
+btn.classList.remove("disabled")
+);
 
 data.forEach(item=>{
 
@@ -336,7 +384,12 @@ document
 .getElementById("tujuan_jabatan")
 .addEventListener("change",function(){
 
-updateSlotAvailability();
+slots.forEach(b=>{
+b.classList.remove("selected");
+b.classList.remove("disabled");
+});
+
 updateCalendar();
+updateSlotAvailability();
 
 });
