@@ -1,32 +1,48 @@
+/* ===============================
+GLOBAL
+=============================== */
+
 *{
 box-sizing:border-box;
+margin:0;
+padding:0;
 font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:#f4f6f9;
-margin:0;
+background:linear-gradient(135deg,#0f4c81,#1e88e5);
+min-height:100vh;
 padding:40px;
 color:#333;
 }
 
-/* CONTAINER */
+
+/* ===============================
+CONTAINER
+=============================== */
+
 .container{
-max-width:900px;
+max-width:950px;
 margin:auto;
 background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+padding:35px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,0.15);
 }
 
-/* HEADER */
+
+/* ===============================
+HEADER
+=============================== */
+
 .header{
 text-align:center;
-margin-bottom:25px;
+margin-bottom:30px;
 }
 
 .header h1{
+font-size:28px;
+color:#0f4c81;
 margin-bottom:5px;
 }
 
@@ -35,29 +51,42 @@ color:#666;
 font-size:14px;
 }
 
-/* INFO BOX */
+
+/* ===============================
+INFO BOX
+=============================== */
+
 .info-box{
-background:#f1f7ff;
-border-left:4px solid #007bff;
+background:#fff8e1;
+border-left:5px solid #fbc02d;
 padding:15px;
 margin-bottom:25px;
-border-radius:6px;
+border-radius:8px;
 font-size:14px;
 }
 
 .info-box ul{
-margin:10px 0 0 20px;
+margin-top:8px;
+margin-left:18px;
 }
 
-/* SECTION TITLE */
+
+/* ===============================
+SECTION TITLE
+=============================== */
+
 h2{
-margin-top:25px;
+margin-top:30px;
 margin-bottom:10px;
 font-size:18px;
-color:#444;
+color:#0f4c81;
 }
 
-/* GRID */
+
+/* ===============================
+GRID
+=============================== */
+
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -66,10 +95,14 @@ margin-bottom:10px;
 }
 
 .full{
-grid-column:1 / -1;
+grid-column:1/-1;
 }
 
-/* FORM */
+
+/* ===============================
+FORM
+=============================== */
+
 .form-group{
 display:flex;
 flex-direction:column;
@@ -78,49 +111,65 @@ flex-direction:column;
 label{
 font-size:14px;
 margin-bottom:5px;
-font-weight:500;
+font-weight:600;
+color:#444;
 }
 
 input,textarea,select{
-padding:10px;
-border:1px solid #ccc;
+padding:11px;
+border:1px solid #d0d7e2;
 border-radius:6px;
 font-size:14px;
-transition:0.2s;
+transition:0.25s;
 }
 
 input:focus,
 textarea:focus,
 select:focus{
 outline:none;
-border-color:#007bff;
-box-shadow:0 0 0 2px rgba(0,123,255,0.1);
+border-color:#1e88e5;
+box-shadow:0 0 0 3px rgba(30,136,229,0.15);
 }
 
-/* BUTTON */
+
+/* ===============================
+BUTTON
+=============================== */
+
 .submit-btn{
 margin-top:20px;
 padding:14px;
 border:none;
-background:#007bff;
+background:linear-gradient(135deg,#1e88e5,#1565c0);
 color:white;
 font-size:16px;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
-transition:0.2s;
+font-weight:600;
+transition:0.25s;
 }
 
 .submit-btn:hover{
-background:#0056b3;
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* ALERT */
+
+/* ===============================
+ALERT
+=============================== */
+
 #alert{
 margin-top:20px;
 font-weight:bold;
+color:#2e7d32;
 }
 
-/* STATUS LINK */
+
+/* ===============================
+STATUS LINK
+=============================== */
+
 .status-link{
 margin-top:25px;
 text-align:center;
@@ -128,7 +177,7 @@ font-size:14px;
 }
 
 .status-link a{
-color:#007bff;
+color:#1e88e5;
 text-decoration:none;
 font-weight:bold;
 }
@@ -137,69 +186,74 @@ font-weight:bold;
 text-decoration:underline;
 }
 
-/* FOOTER */
+
+/* ===============================
+FOOTER
+=============================== */
+
 .footer{
 text-align:center;
-margin-top:30px;
+margin-top:35px;
 font-size:13px;
 color:#777;
 }
 
-/* BADGE STATUS */
-.badge{
-padding:4px 10px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-color:white;
+
+/* ===============================
+GOOGLE CALENDAR
+=============================== */
+
+.calendar-box{
+margin:20px 0;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
 }
 
-.badge-menunggu{
-background:#f1c40f;
-}
 
-.badge-setuju{
-background:#27ae60;
-}
+/* ===============================
+SLOT WAKTU
+=============================== */
 
-.badge-tolak{
-background:#e74c3c;
-}
-
-/* ADMIN TOP */
-.admin-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
+.slot-container{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
 margin-bottom:20px;
 }
 
-/* FILTER */
-.filter{
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc;
+.slot-btn{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#e3f2fd;
+cursor:pointer;
+font-weight:bold;
+color:#0f4c81;
+transition:0.2s;
 }
 
-/* TABLE */
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+.slot-btn:hover{
+background:#1e88e5;
+color:white;
 }
 
-th,td{
-padding:10px;
-border-bottom:1px solid #ddd;
-text-align:left;
-font-size:14px;
+.slot-btn.selected{
+background:#2e7d32;
+color:white;
 }
 
-th{
-background:#f4f6f9;
+.slot-btn.disabled{
+background:#cfd8dc;
+cursor:not-allowed;
+color:#777;
 }
 
-/* RESPONSIVE */
+
+/* ===============================
+RESPONSIVE
+=============================== */
+
 @media(max-width:768px){
 
 body{
@@ -207,102 +261,15 @@ padding:20px;
 }
 
 .container{
-padding:20px;
+padding:25px;
 }
 
 .grid{
 grid-template-columns:1fr;
 }
 
-}
-
-/* DASHBOARD STATISTICS */
-
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:25px;
-}
-
-.card{
-background:#f4f6f9;
-padding:20px;
-border-radius:8px;
-text-align:center;
-}
-
-.card h3{
-font-size:28px;
-margin:0;
-}
-
-.card p{
-margin:5px 0 0;
-font-size:14px;
-color:#666;
-}
-
-/* SEARCH DAN FILTER */
-
-.admin-tools{
-display:flex;
-gap:10px;
-margin-bottom:20px;
-}
-
-.admin-tools input{
-flex:1;
-padding:10px;
-border:1px solid #ccc;
-border-radius:6px;
-}
-
-.admin-tools select{
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-/* GOOGLE CALENDAR */
-
-.calendar-box{
-margin:20px 0;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(0,0,0,0.08);
-}
-
-
-/* SLOT WAKTU */
-
 .slot-container{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin-bottom:20px;
+grid-template-columns:repeat(2,1fr);
 }
 
-.slot-btn{
-padding:10px;
-border:none;
-border-radius:6px;
-background:#f4f6f9;
-cursor:pointer;
-font-weight:bold;
-}
-
-.slot-btn:hover{
-background:#007bff;
-color:white;
-}
-
-.slot-btn.disabled{
-background:#ccc;
-cursor:not-allowed;
-}
-
-.slot-btn.selected{
-background:#007bff;
-color:white;
 }
